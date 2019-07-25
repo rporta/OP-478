@@ -43,7 +43,7 @@ router.post('/', (req, res, next) => {
             response.mensaje = data.error;
             response.code = 400;
         } else {
-            response.mensaje = data.rs;
+            response.mensaje = data.rsApi;
             response.code = 200;
         }
         logger.info('Response method ' + '(/unsubscribe)' + ' : ' + JSON.stringify(response));
@@ -160,6 +160,7 @@ var asyncUnsubscribe = (data, cb) => {
                 request(postRequest, function(error, response, body) {
                     if (!error && response.statusCode == 200) {
                         logger.debug(response.body);
+                        data.rsApi = body;
                         body = JSON.parse(body);
                         if (typeof body.status == 'undefined' || body.status == 'false') {
                             if (body.status == 'false' && typeof body.error != 'undefined') {
